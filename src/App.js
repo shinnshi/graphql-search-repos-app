@@ -34,13 +34,18 @@ class App extends Component {
         <form onSubmit={this.handleSubmit}>
           <input value={query} onChange={this.handleChange} />
         </form>
+
         <Query query={SEARCH_REPOSITORYS} variables={{ query, first, last, before, after }}>
           {
             ({ loading, error, data }) => {
               if (loading) return 'Loading...'
               if (error) return `Error! ${error.message}`
-              console.log({ data })
-              return <div></div>
+
+              const search = data.search
+              const repositoryCount = search.repositoryCount
+              const repositoryUnit = repositoryCount === 1 ? 'Repository' : 'Repositories'
+              const title = `GitHub Repositories Search Result  - ${repositoryCount} ${repositoryUnit}`
+              return <h2>{title}</h2>
 
             }
           }
